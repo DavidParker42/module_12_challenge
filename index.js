@@ -6,6 +6,7 @@ const inquirer = require("inquirer");
 const menu = () => {
   return inquirer
     .prompt([
+        
       {
         type: "list",
         name: "action",
