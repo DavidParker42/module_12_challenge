@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-const mysql12 = require("mysql12");
+const mysql = require("mysql2");
 const cTable = require("console.table");
 
 const connection = mysql.createConnection({
@@ -10,14 +10,11 @@ const connection = mysql.createConnection({
   database: 'employeeTracker_db'
 });
 
-connection.conect( (err) =>{
+connection.connect( (err) =>{
   if(err) throw err;
 });
 
-
-
-
-const menu = () => {
+const firstPrompt = () => {
   return inquirer
     .prompt([
         
@@ -26,20 +23,20 @@ const menu = () => {
         name: "action",
         message: "what would you like to do",
         choices: [
-          "view all employees",
-          "add employee",
-          "update employee",
-          "view all roles", 
-          "add role", 
-          "view all departments", 
-          "add department",
-          "end"]
+          "View all employees",
+          "Add an employee",
+          "Update employee role",
+          "View all roles", 
+          "Add role", 
+          "View all departments", 
+          "Add a department",
+          "End"]
       },
     ])
 
 
     .then(response => {
-      switch (response.task) {
+      switch (response.action) {
       case 'View all departments':
         viewDepartment();
         break;
@@ -52,13 +49,13 @@ const menu = () => {
       case 'Add a department':
         addDepartment();
         break;
-        case 'Add a roles':
+        case 'Add role':
         addRoles();
         break;
         case 'Add an employee':
           addEmployee();
           break;
-        case 'Update employee roles':
+        case 'Update employee role':
           updateEmployee();
         break;
       case "Exit":
@@ -107,7 +104,7 @@ const viewDepartment = () => {
             ])
             .then(answer => {
               connection.query(
-                'INSERT INTO department (dept_name) VALUES (?)',
+                'INSERT INTO department (name) VALUES (?)',
                 [answer.department],
                 function (err, res) {
                   if (err) throw err;
@@ -118,7 +115,7 @@ const viewDepartment = () => {
             });
         };
         
-        const addroles = () => {
+        const addRoles = () => {
           inquirer.prompt([
               {
                 name: 'rolesTitle',
@@ -164,7 +161,7 @@ const viewDepartment = () => {
               {
                 name: 'rolesId',
                 type: 'input',
-                message: "What is the employee's roles id?",
+                message: "What is the employee's role id?",
               },
               {
                 name: 'managerId',
@@ -174,7 +171,7 @@ const viewDepartment = () => {
             ])
             .then(answer => {
               connection.query(
-                'INSERT INTO employee (first_name, last_name, roles_id, manager_id) VALUES (?, ?, ?, ?)',
+                'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
                 [answer.nameFirst, answer.nameLast, answer.rolesId, answer.managerId],
                 function (err, res) {
                   if (err) throw err;
@@ -201,7 +198,7 @@ const viewDepartment = () => {
             ])
             .then(answer => {
               connection.query(
-                'UPDATE employee SET roles_id=? WHERE id=?',
+                'UPDATE employee SET role_id=? WHERE id=?',
                 [answer.rolesId, answer.id],
                 function (err, res) {
                   if (err) throw err;
