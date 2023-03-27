@@ -1,11 +1,12 @@
-# Project Name
+# SQL: Employee Tracker
   SQL: Employee Tracker
   
   ## Table of Contents
   1. [Description](#description)
   2. [Video](#video)
   3. [Email](#email)
-  4. [Github](#github)
+  4. [Application Type](#application-type)
+  5. [Github](#github)
   
   
   ## Description
@@ -17,5 +18,8 @@
   ## Email
   david.m.parker92@gmail.com
 
+  ## Application Type
+  SQL
+ 
   ## Github repository link
   https://github.com/DavidParker42/module_12_challenge
